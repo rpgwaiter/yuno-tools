@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 #
 # Yu-No windows ver. archive (.ARC) unpacker
 #
@@ -10,7 +11,7 @@ import re
 import fnmatch
 import ctypes
 
-version = "%prog 0.4"
+version = "%prog 0.6"
 
 # transparently decompress the following file extensions
 comp_ext = (".MES", ".A6", ".S4", ".BIN")
@@ -81,26 +82,36 @@ def slow_decomp(fo, bio):
 
 # ========================= end terminally slow code ==========================
 
+# Get the proper native library to decompress
+# TODO: This could check what platform you're on
+def get_native_lib():
+    # Defaults to windows .dll,
+    # assuming linux people will use the nix version or at least inject the right file
+    yuno_lib = os.getenv('YUNO_NATIVE_LIB', f"{os.getcwd()}/yunolzss.dll")
+
+    return ctypes.cdll.LoadLibrary(yuno_lib) if os.path.splitext(yuno_lib)[-1] == '.so' else ctypes.CDLL(yuno_lib)
+
 
 # fast ctypes implementation of the above
-# Windows only atm
 def decomp(fo, bio):
     buf_size = 524288
     data = bio.read()
     c_cmprlen = ctypes.c_int(len(data))
     c_in = ctypes.create_string_buffer(data)
+    native_lib = get_native_lib()
+
     # try 512 KB output buffer, then 1 MB, then 2MB
     for k in range(3):
         c_out_size = ctypes.c_int(buf_size)
         c_out = ctypes.create_string_buffer(c_out_size.value)
-        uncmprlen = ctypes.cdll.yunolzss.yuno_decomp(c_out, c_in, c_cmprlen, c_out_size)
+        uncmprlen = native_lib.yuno_decomp(c_out, c_in, c_cmprlen, c_out_size)
         if uncmprlen >= 0:
             break
         buf_size *= 2
     # three strikes and you're out!
     if uncmprlen == -1:
         raise MemoryError(
-            "yunolzss.dll - uncompressed data too large for output buffer"
+            "yunolzss native lib - uncompressed data too large for output buffer"
         )
     fo.write(c_out.raw[:uncmprlen])
 
@@ -120,9 +131,9 @@ def unpack(outdir, fi, options):
             print("%4d %s %08X %s" % (id, fname.ljust(15), offset, size_str(size)))
         if os.path.splitext(fname)[1].upper() in comp_ext:
             try:
-                ctypes.cdll.yunolzss  # to trigger an exception (if needed)
+                get_native_lib()  # to trigger an exception (if needed)
                 decomp(open(os.path.join(outdir, fname), "wb"), io.BytesIO(data))
-            except WindowsError:
+            except: # TODO: general error (not WindowsError)
                 slow_decomp(open(os.path.join(outdir, fname), "wb"), io.BytesIO(data))
         else:
             open(os.path.join(outdir, fname), "wb").write(data)

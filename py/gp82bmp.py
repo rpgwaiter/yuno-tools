@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 #
 # Yu-No windows ver. GP8-to-BMP image converter
 #
@@ -104,7 +105,7 @@ def gp82bmp(fo, fi):
     try:
         ctypes.cdll.yunolzss  # to trigger an exception (if needed)
         decomp(fo, fi)
-    except WindowsError:
+    except: # TODO: error type (not WindowsError)
         slow_decomp(fo, fi)
     return xpos, ypos
 

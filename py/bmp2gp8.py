@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 #
 # Yu-No windows ver. BMP-to-GP8 image converter
 #
@@ -11,7 +12,7 @@ import struct
 import optparse
 import sys
 
-version = "%prog 0.5"
+version = "%prog 0.6"
 
 
 def read_pos(fp, fname):

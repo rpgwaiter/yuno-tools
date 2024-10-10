@@ -12,7 +12,7 @@
     system = "x86_64-linux"; # your version
     pkgs = nixpkgs.legacyPackages.${system};
   in {
-    packages.${system} = {
+    packages.${system} = rec {
       yunolzss = pkgs.stdenv.mkDerivation {
         name = "yunolzss";
 
@@ -26,6 +26,33 @@
         installPhase = ''
           mkdir -p $out/share
           cp yunolzss.so  $out/share/yunolzss.so
+        '';
+      };
+
+      yuno-scripts = pkgs.python3Packages.buildPythonApplication rec {
+        pname = "yuno-scripts";
+        version = "0.6.0";
+        format = "other";
+
+        propagatedBuildInputs = [
+          yunolzss
+          pkgs.makeWrapper
+        ];
+
+        # Do direct install
+        #
+        # Add further lines to `installPhase` to install any extra data files if needed.
+        dontUnpack = true;
+        installPhase = ''
+          install -Dm755 ${./py/arcrepack.py} $out/bin/arcrepack
+          install -Dm755 ${./py/arcunpack.py} $out/bin/arcunpack
+          install -Dm755 ${./py/bmp2gp8.py} $out/bin/bmp2gp8
+          install -Dm755 ${./py/gp82bmp.py} $out/bin/gp82bmp
+
+          wrapProgram "$out/bin/arcrepack" --set YUNO_NATIVE_LIB ${yunolzss}/share/yunolzss.so
+          wrapProgram "$out/bin/arcunpack" --set YUNO_NATIVE_LIB ${yunolzss}/share/yunolzss.so
+          wrapProgram "$out/bin/bmp2gp8" --set YUNO_NATIVE_LIB ${yunolzss}/share/yunolzss.so
+          wrapProgram "$out/bin/gp82bmp" --set YUNO_NATIVE_LIB ${yunolzss}/share/yunolzss.so
         '';
       };
     };

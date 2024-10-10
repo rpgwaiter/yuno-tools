@@ -1,3 +1,4 @@
+#! /usr/bin/env python
 #
 # Yu-No windows ver. archive (.ARC) repacker
 #
