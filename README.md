@@ -1,4 +1,4 @@
-# Tools to analyse, decompile and recompile YU-NO from the early windows "elf classics" release of the game.
+# Tools to analyze, decompile and recompile YU-NO from the early windows "elf classics" release of the game.
 
 ## Background
 
@@ -9,9 +9,8 @@ The tools in this repo are meant to aid in reverse engineering YU-NO (and the ot
 My intention with these is to eventually port the game to the web, allowing more people to experience one of my favorite games.
 
 ## TODO
-- Link the python scripts to the nix c build output
-- Python nix packages
 - Windows build
+- Linux install script for yu-no
 - Some helper scripts to unpack/repack the *entire* game install in-place
 - Conversion tools to modern web formats
 
