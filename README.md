@@ -8,12 +8,16 @@ The tools in this repo are meant to aid in reverse engineering YU-NO (and the ot
 
 My intention with these is to eventually port the game to the web, allowing more people to experience one of my favorite games.
 
-## TODO
+## TODO (tools)
 - Windows build
 - Linux install script for yu-no
 - Some helper scripts to unpack/repack the *entire* game install in-place
 - Conversion tools to modern web formats
 
+## TODO (reverse engineering)
+- Figure out .S4 files
+- What's up with zBG, zDATA, zMES?
+- Hook the music libraries to support .opus or .flac (much smaller sizes)
 
 ## Credits
 
