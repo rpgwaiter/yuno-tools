@@ -9,7 +9,7 @@
     nixpkgs,
     ...
   } @ inputs: let
-    system = "x86_64-linux"; # your version
+    system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
   in {
     packages.${system} = rec {
@@ -39,9 +39,6 @@
           pkgs.makeWrapper
         ];
 
-        # Do direct install
-        #
-        # Add further lines to `installPhase` to install any extra data files if needed.
         dontUnpack = true;
         installPhase = ''
           install -Dm755 ${./py/arcrepack.py} $out/bin/arcrepack
