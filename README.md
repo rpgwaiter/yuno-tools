@@ -11,14 +11,16 @@ My intention with these is to eventually port the game to the web, allowing more
 ## TODO (tools)
 - Windows build
 - Linux install script for yu-no
+- Make my own translation patch script
 - Some helper scripts to unpack/repack the *entire* game install in-place
 - Conversion tools to modern web formats
 
 ## TODO (reverse engineering)
 - Figure out .S4 files
+- Figure ous .MES files
 - What's up with zBG, zDATA, zMES?
 - Hook the music libraries to support .opus or .flac (much smaller sizes)
 
 ## Credits
 
-The bulk of this reversing work was done by some friendly people on the defunct TLWiki forums. Primarily `kingshriek` who seems to not currently have much of an internet presence. These were released originally without a license, so hopefully the original author doesn't mind me continuing their work.
+The bulk of custom format reversing was done by some friendly people on the defunct TLWiki forums. Primarily `kingshriek` who seems to not currently have much of an internet presence. These were released originally without a license, so hopefully the original author doesn't mind me continuing their work.
