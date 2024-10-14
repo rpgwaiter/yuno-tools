@@ -18,6 +18,7 @@ My intention with these is to eventually port the game to the web, allowing more
 ## TODO (reverse engineering)
 - Figure out .S4 files
 - Figure ous .MES files
+- There is track looping info embedded in the .WAV files in some non-standard way. I need to extract these for porting
 - What's up with zBG, zDATA, zMES?
 - Hook the music libraries to support .opus or .flac (much smaller sizes)
 

@@ -42,6 +42,8 @@ done
 ## Convert all .WAV files to opus
 ## TODO: (dont) replace wav flag
 ## - this should happen after the voice patch
+## - There is looping timestamp info embedded in the .wav files in some non-standard way
+##   I should make a python script to extract these timestamps
 WAV_FILES=$(ls -1 "${WORKDIR}/"**"/"*".WAV")
 WAV_TOTAL_SIZE=$(du -ch $WAV_FILES | tail -1 | awk '{print $1}')
 
